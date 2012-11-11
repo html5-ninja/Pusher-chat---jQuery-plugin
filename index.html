@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pusher Chat  - live demo</title>
+        <link href="css/chat-style.css" rel="stylesheet">
+        <script src="http://js.pusher.com/1.12/pusher.min.js" type="text/javascript"></script> 
+        <script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>
+        <script src="js/jquery.pusherchat.js" type="text/javascript"></script>
+        <style>
+            /* demo style */
+            body{color: #333}
+            small{color:#ccc ; font-size: 14px}
+            .account a{ color :#333; background: #eee; border: 1px solid #ccc;padding: 5px; border-radius: 5px;display: inline-block;}
+            pre{line-height: 11px;font-size: 11px;background: #fafafa;border: 1px solid #ccc; padding: 10px}
+            .hide{font-size: 19px ;color:red ; font-weight: bold;display: none}
+            .connexion {font-size: 19px ;color:green ; font-weight: bold;}
+        </style>
+    </head>
+    <body>
+        <h1><img src="http://html5-ninja.com/assets/images/little-ninja.png" alt="html5-ninja.com"  /> Pusher chat , a facebook like chat jQuery plugin, using Pusher API</h1>
+        <p>
+            If you like Pusher Chat , share our link <a href="http://html5-ninja.com" target="_blank">HTML5 Ninja</a> or better, purchase us something :) , thx
+        </p>
+        <hr/>
+        <h2>To start the demo , first connect as..  <small>click on link to connect & open at least 2 account in different window</small> :</h2>
+        <div class="connexion"></div>
+        <div class="account">
+            <a href="?user_id=133&name=Elvis"  id="user_133">Elvis</a>
+            <a href="?user_id=244&name=Kurt%20Cobain" id="user_244">Kurt Cobain</a>
+            <a href="?user_id=3&name=Hendrix" id="user_3">Hendrix</a>
+            <a href="?user_id=666&name=Satan" id="user_666">Satan</a>
+            <a href="?user_id=999&name=God" id="user_999">God</a>
+            <a href="?user_id=111&name=Jesus" id="user_111">Jesus</a>
+            <a href="?user_id=1&name=Homer%20Simpson" id="user_1">Homer Simpson</a>
+            <a href="?user_id=2&name=Roger" id="user_2">Roger</a>
+            <a href="?user_id=4&name=Snoopy" id="user_4">Snoopy</a>
+            <div class="hide">
+                Please wait until one of testers leaves the demo , or download the plugin & try it on your own host , thx
+            </div>
+        </div>
+        <hr/>
+        <h2>Try it your self is better</h2>
+        <h3>files to includes</h3>
+        <pre>
+&lt;link href=&quot;css/chat-style.css&quot; rel=&quot;stylesheet&quot;&gt;<br />
+&lt;script src=&quot;http://js.pusher.com/1.12/pusher.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt; <br />
+&lt;script src=&quot;http://code.jquery.com/jquery-1.8.2.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br />
+&lt;script src=&quot;js/jquery.pusherchat.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+        </pre>
+        <h3>Default setup</h3>
+        <pre>            
+            $.fn.pusherChat({
+                'pusherKey':'YOUR PUSHER KEY',  // required : open an account on http://pusher.com/ to get one
+                'authPath':'server/pusher_auth.php', // required : path to authentication scripts more info at http://pusher.com/docs/authenticating_users
+                'friendsList' : 'ajax/friends-list.json', // required : path to friends list json 
+                'serverPath' : 'server/server.php' // required : path to server
+            )}
+        </pre>
+        <h3>HTML markup structure</h3>
+        <p> You can edit content &amp; style  but <b>don't change the structure or id &amp; class name</b>. </p>
+        <pre>
+&lt;div id=&quot;pusherChat&quot;&gt;<br />
+  &lt;div id=&quot;membersContent&quot;&gt; <br />
+  &lt;span id=&quot;expand&quot;&gt;&lt;span class=&quot;close&quot;&gt;&amp;#x25BC;&lt;/span&gt;&lt;span class=&quot;open&quot;&gt;&amp;#x25B2;&lt;/span&gt;&lt;/span&gt;<br />
+  &lt;h2&gt;&lt;span id=&quot;count&quot;&gt;0&lt;/span&gt; online&lt;/h2&gt;<br />
+  &lt;div class=&quot;scroll&quot;&gt;<br />
+  &lt;div id=&quot;members-list&quot;&gt;&lt;/div&gt;<br />
+  &lt;/div&gt;<br />
+  &lt;/div&gt;
+ &lt;!-- chat box template --&gt;<br />
+  &lt;div id=&quot;templateChatBox&quot;&gt;<br />
+  &lt;div class=&quot;pusherChatBox&quot;&gt;<br />
+  &lt;span class=&quot;state&quot;&gt;<br />
+  &lt;span class=&quot;pencil&quot;&gt;<br />
+  &lt;img src=&quot;assets/pencil.gif&quot; /&gt;<br />
+  &lt;/span&gt;<br />
+  &lt;span class=&quot;quote&quot;&gt;<br />
+  &lt;img src=&quot;assets/quote.gif&quot; /&gt;<br />
+  &lt;/span&gt;<br />
+  &lt;/span&gt;<br />
+  &lt;span class=&quot;expand&quot;&gt;&lt;span class=&quot;close&quot;&gt;&amp;#x25BC;&lt;/span&gt;&lt;span class=&quot;open&quot;&gt;&amp;#x25B2;&lt;/span&gt;&lt;/span&gt;<br />
+  &lt;span class=&quot;closeBox&quot;&gt;x&lt;/span&gt;<br />
+  &lt;h2&gt;&lt;a href=&quot;#&quot; title=&quot;go to profile&quot;&gt;&lt;img src=&quot;&quot; class=&quot;imgFriend&quot; /&gt;&lt;/a&gt; &lt;span class=&quot;userName&quot;&gt;&lt;/span&gt;&lt;/h2&gt;<br />
+  &lt;div class=&quot;slider&quot;&gt;<br />
+  &lt;div class=&quot;logMsg&quot;&gt;<br />
+  &lt;div class=&quot;msgTxt&quot;&gt;<br />
+  &lt;/div&gt;<br />
+  &lt;/div&gt;<br />
+  &lt;form method=&quot;post&quot; name=&quot;#123&quot;&gt;<br />
+  &lt;textarea  name=&quot;msg&quot; rows=&quot;3&quot; &gt;&lt;/textarea&gt;<br />
+  &lt;input type=&quot;hidden&quot; name=&quot;from&quot; class=&quot;from&quot; /&gt;<br />
+  &lt;input type=&quot;hidden&quot; name=&quot;to&quot;  class=&quot;to&quot;/&gt;<br />
+  &lt;input type=&quot;hidden&quot; name=&quot;typing&quot;  class=&quot;typing&quot; value=&quot;false&quot;/&gt;<br />
+  &lt;/form&gt;<br />
+  &lt;/div&gt;<br />
+  &lt;/div&gt;<br />
+  &lt;/div&gt;<br />
+  &lt;!-- chat box template end --&gt;
+&lt;div class=&quot;chatBoxWrap&quot;&gt;<br />
+  &lt;div class=&quot;chatBoxslide&quot;&gt;&lt;/div&gt;<br />
+  &lt;span id=&quot;slideLeft&quot;&gt; &lt;img src=&quot;assets/quote.gif&quot; /&gt;&amp;#x25C0;&lt;/span&gt; <br />
+  &lt;span id=&quot;slideRight&quot;&gt;&amp;#x25B6; &lt;img src=&quot;assets/quote.gif&quot; /&gt;&lt;/span&gt;<br />
+  &lt;/div&gt;<br />
+  &lt;/div&gt;
+        </pre>
+
+        <hr/>
+        <h2>Settings</h2>
+        <ul>
+            <li>
+                <p> 'pusherKey': YOUR PUSHER KEY HERE   //required : open an account on http://pusher.com/ to get one</p>
+            </li>
+            <li>
+                <p>
+                    'authPath' : path to authentication scripts  //required :  more info at http://pusher.com/docs/authenticating_users
+                </p>
+            </li>
+            <li>
+                <p>
+                    'friendsList' : path to friends list json  //required : 
+                </p>
+                <pre>
+
+        // json ex :
+        
+        {
+        "133": ["Elvis","assets/elvis.jpg","http://html5-ninja.com"],
+        "244": ["Kurt Cobain","assets/cobain.jpg","http://html5-ninja.com"],
+        }               
+        
+                </pre>
+            </li>
+            <li>
+                <p>'serverPath' :  path to server  //required : path to server</p>
+            </li>
+            <li>
+                <p>
+                    'profilePage' : false or true //link to friend profile page setup fom json  ex : ["Kurt Cobain","assets/cobain.jpg","path/to/profile"]
+                </p>
+            </li>
+            <li>
+                <p>
+                    'onFriendConnect' : function(data){...}  //event : trigger when friend connect & return ID
+                </p>
+            </li>
+            <li>
+                <p>
+                    'onFriendLogOut' : function(data){...}  //event : trigger when friend log out & return ID
+                </p>
+            </li>
+            <li>
+                <p>
+                    'onSubscription' : function(data){...}  //return  members object
+                </p>
+            </li>
+        </ul>
+        <h2>Security</h2>
+        <p>
+            You are a big boy ! create your own security strategy on pusher_auth.php &  server.php
+        </p>
+
+        <!--***************************************************** pusher chat html *******************************************************-->
+        <div id="pusherChat">
+            <div id="membersContent">                
+                <span id="expand"><span class="close">&#x25BC;</span><span class="open">&#x25B2;</span></span>
+                <h2><span id="count">0</span> online</h2>
+                <div class="scroll">
+                    <div id="members-list"></div>
+                </div>
+            </div>
+
+            <!-- chat box template -->
+            <div id="templateChatBox">
+                <div class="pusherChatBox">
+                    <span class="state">
+                        <span class="pencil">
+                            <img src="assets/pencil.gif" />
+                        </span>
+                        <span class="quote">
+                            <img src="assets/quote.gif" />
+                        </span>
+                    </span>
+                    <span class="expand"><span class="close">&#x25BC;</span><span class="open">&#x25B2;</span></span>
+                    <span class="closeBox">x</span>
+                    <h2><a href="#" title="go to profile"><img src="" class="imgFriend" /></a> <span class="userName"></span></h2>
+                    <div class="slider">
+                        <div class="logMsg">
+                            <div class="msgTxt">
+                            </div>
+                        </div>
+                        <form method="post" name="#123">
+                            <textarea  name="msg" rows="3" ></textarea>
+                            <input type="hidden" name="from" class="from" />
+                            <input type="hidden" name="to"  class="to"/>
+                            <input type="hidden" name="typing"  class="typing" value="false"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- chat box template end -->
+
+            <div class="chatBoxWrap">
+                <div class="chatBoxslide"></div>
+                <span id="slideLeft"> <img src="assets/quote.gif" />&#x25C0;</span> 
+                <span id="slideRight">&#x25B6; <img src="assets/quote.gif" /></span>
+            </div>
+        </div>
+        <!--***************************************************** end pusher chat html *******************************************************-->
+
+        <hr/>
+        <footer>
+            <p>follow us on twitter <a href="https://twitter.com/html5_ninja">@html5_ninja</a>, on <a href="https://www.facebook.com/Html5Ninja">Facebook</a> & on <a href="https://plus.google.com/107385672780395752994">Google+</a></p>
+            <p>Author & support : zied.hosni.mail@gmail.com <span class="pull-right">2012 &copy; <a href="http://html5-ninja.com/">html5-ninja.com</a></span></p>
+
+        </footer>
+        <script type="text/javascript">
+            /*
+             * this part is only for demo you don't need this
+             */
+            function getUrlVars() {
+                var vars = {};
+                var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                    vars[key] = value;
+                });
+                return vars;
+            }
+
+            var id = getUrlVars()['user_id'];
+            var name = getUrlVars()['name'];
+
+            if (id=="undefined") {
+                id=""; 
+            } else $('#user_'+id).hide();
+            if (name=="undefined") name="";
+            if (!id) $('#pusherChat').remove();
+            if (name)
+                $('.connexion').html('You are connected as '+name.replace('%20',' '));
+            /*
+             * this part is only for demo you don't need this
+             */
+        </script>
+
+        <script>
+            $.fn.pusherChat({
+                'pusherKey':'GET YOUR KEY FROM http://pusher.com',
+                'authPath':'server/pusher_auth.php?user_id='+id+'&name='+name,
+                'friendsList' : 'ajax/friends-list.json',
+                'serverPath' : 'server/server.php',
+                'profilePage':true,
+                'onFriendConnect': function(member){
+                    if (member.id) $('#user_'+member.id).hide();  
+                    if (!$('.account a:visible').html()) $('.hide').show();
+                },
+                'onFriendLogOut': function(member){
+                    if (member.id) $('#user_'+member.id).show();  
+                    if ($('.account a:visible').html()) $('.hide').hide();
+                },
+                'onSubscription':function(members){
+                    if ($('.account a:visible').html()) $('.hide').hide();
+                    $.each(members._members_map, function(val){
+                        $('#user_'+val).hide();
+                    });            
+                }
+            });
+        </script>
+    </body>
+</html>
