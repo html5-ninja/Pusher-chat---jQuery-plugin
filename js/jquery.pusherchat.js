@@ -201,7 +201,7 @@
                     }
                     $('#id_'+user_id).removeClass('off').removeClass('on').addClass(chatBoxOnline);
                 });
-                $('#pusherChat #members-list').html(onlineUser+offlineUser);    
+                $('#pusherChat #members-list').append(onlineUser+offlineUser);    
             });
     
             $('#pusherChat #members-list').html('');   
