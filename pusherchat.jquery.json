@@ -1,6 +1,6 @@
 {
     "name": "pusherchat",
-    "title": "Pusher Chat - jQuery plugin",
+    "title": "Pusher Chat - Facebook-like chat jQuery plugin",
     "description": "Pusher Chat , is a Facebook like chat jQuery plugin using Pusher API, please visit http://pusher.com. Now you can get easily a chat application on your site.",
     "keywords": [
         "html5",
@@ -32,6 +32,6 @@
     "download": "https://github.com/html5-ninja/Pusher-chat---jQuery-plugin",
     "dependencies": {
         "jquery": ">=1.7",
-		"Pusher" : ">=1.12"
+		"pusher" : ">=1.12"
     }
 }
