@@ -1,0 +1,37 @@
+{
+    "name": "pusherchat",
+    "title": "Pusher Chat - jQuery plugin",
+    "description": "Pusher Chat , is a Facebook like chat jQuery plugin using Pusher API, please visit http://pusher.com. Now you can get easily a chat application on your site.",
+    "keywords": [
+        "html5",
+        "websocket",
+		"chat",
+		"Pusher API"
+    ],
+    "version": "1.0.0",
+    "author": {
+        "name": "HTML5 Ninja",
+        "url": "http://html5-ninja.com/"
+    },
+    "maintainers": [
+        {
+            "name": "Zied Hosni",
+            "email": "zied.hosni.mail@gmail.com",
+            "url": "http://html5-ninja.com/"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://opensource.org/licenses/MIT"
+        }
+    ],
+    "bugs": "https://github.com/html5-ninja/Pusher-chat---jQuery-plugin/issues",
+    "homepage": "http://html5-ninja.com/item/Pusher-Chat-jQuery-plugin/7",
+    "docs": "http://html5-ninja.com/preview/index/7",
+    "download": "https://github.com/html5-ninja/Pusher-chat---jQuery-plugin",
+    "dependencies": {
+        "jquery": ">=1.7",
+		"Pusher" : ">=1.12"
+    }
+}
