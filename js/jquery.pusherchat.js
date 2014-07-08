@@ -107,6 +107,7 @@
                 $('#id_'+data.from+' .logMsg').scrollTop($('#id_'+data.from+' .logMsg')[0].scrollHeight);      
                 if ($('title').text().search('New message - ')==-1)
                     $('title').prepend('New message - ');
+                    $.playSound('sounds/new');
             }
             if (presenceChannel.members.me.id == data.from){
                 $('#id_'+data.to+' .msgTxt').append('<p class="you"><b>You</b><br/>'+ data.message+'</p>');
@@ -336,3 +337,4 @@
     
     
 })( jQuery );
+
